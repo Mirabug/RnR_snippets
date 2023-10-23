@@ -1,5 +1,11 @@
-# RRtools-esque function to format data
+# This code Runs conStruct on sites. Some parts are quite slow to run but if running in rstudio it will sow you a progress in percentage.
+# It reqires that you have already loaded in your dart file, filtered and combined with the meta. It also like the file format usually used for RnR.
+# most of the information can be found in the conStruct Git here: https://github.com/gbradburd/conStruct/tree/master/vignettes
 
+
+library(conStruct)
+
+# RRtools-esque function to format data
 dart2conStruct <- function(dms, basedir, species, dataset, pop) {
   
   # Step 1, get the genotypes ready
@@ -133,7 +139,7 @@ lc.calculations <- function (geo, num_runs){
   return(layer.contributions)
 }
 
-
+# Example
 layer.contributions_FALSE <- lc.calculations(FALSE, 6)
 layer.contributions_TRUE <- lc.calculations(TRUE, 6)
 
@@ -151,13 +157,8 @@ barplot(layer.contributions_FALSE,
 
 
 
-
-
-
-
 # Cross validation analysis.
 # this takes a while to run, it is essentially running each run multiple times.
-
 my.xvals <- x.validation(train.prop = 0.9,
                          n.reps = 3,
                          K = 1:6,
@@ -180,6 +181,7 @@ nsp.results <- as.matrix(
              header = TRUE,
              stringsAsFactors = FALSE)
 )
+# adding error bars
 sp.CIs <- apply(sp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
 nsp.CIs <- apply(nsp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
 
